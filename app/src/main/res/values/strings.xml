@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">TallerAutomotriz</string>
+    <string name="title_activity_principal">Principal</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="servicios">Nuestros Servicios</string>
+    <string name="promociones">Promociones</string>
+    <string name="contactanos">Contactanos</string>
+    <string name="encuentranos">Encuentra nuestras Sucursales</string>
+
+
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_administrador">Administrador</string>
+</resources>
