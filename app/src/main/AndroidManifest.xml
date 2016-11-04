@@ -58,9 +58,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Formulario"
-            android:theme="@style/AppTheme" />
         <activity android:name=".Integrantes"
             android:theme="@style/AppTheme" ></activity>
     </application>
