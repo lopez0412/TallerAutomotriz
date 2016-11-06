@@ -30,8 +30,8 @@ public class Administrador extends AppCompatActivity
 
         list=(ListView)findViewById(R.id.listaadmin);
 
-        AdaptadorAdmin adapter=new AdaptadorAdmin(this,trabajos,hora);
-        list.setAdapter(adapter);
+       // AdaptadorAdmin adapter=new AdaptadorAdmin(this,trabajos,hora);
+        //list.setAdapter(adapter);
 
 
 

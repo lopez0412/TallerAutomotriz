@@ -15,8 +15,27 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
     EditText user,contra;
+    SharedPreferences sp;
+    RequestQueue requestQueue;
+
+    StringRequest request;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -26,10 +45,13 @@ public class MainActivity extends AppCompatActivity {
         user=(EditText)findViewById(R.id.usuario);
         contra=(EditText)findViewById(R.id.password);
         //  SharedPreferences
-        SharedPreferences sp=getSharedPreferences("datos", Context.MODE_PRIVATE);
+
+        sp=getSharedPreferences("datos", Context.MODE_PRIVATE);
 
         String valor=String.valueOf(sp.getString("usuario"," "));
         user.setText(valor);
+
+        requestQueue=VolleySingleton.getInstance().getRequestQueue();
 
 
     }
@@ -40,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     public void login(View v) {
         final String usuario = user.getText().toString();
         final String pass = contra.getText().toString();
+
         //validar que los campos no esten vacios
         if (usuario.isEmpty()) {
             user.setError("Ingrese Usuario");
@@ -48,60 +71,59 @@ public class MainActivity extends AppCompatActivity {
             contra.setError("Ingrese Contraseña");
             contra.setFocusable(true);
         }else {
+            final String URL="https://tallerservice.000webhostapp.com/taller.php?usu="+usuario+"&pas="+pass;
+            request=new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONObject json=new JSONObject(response);
+                        int id=json.getInt("id");
+                        String rol=json.getString("rol");
 
-        //validar las credenciales
-            if (usuario.equals("javier") && pass.equals("javier0412")){
-                Intent i = new Intent(this, Principal.class);
-                i.putExtra("Usuario",usuario);
-                i.putExtra("Password",pass);
-                startActivity(i);
-//  SharedPreferences
-                SharedPreferences sp=getSharedPreferences("datos", Context.MODE_PRIVATE);
+                        switch (rol){
+                            case "cliente":
+                                Intent i=new Intent(MainActivity.this,Principal.class);
+                                i.putExtra("id",id);
+                                startActivity(i);
 
-                SharedPreferences.Editor editor=sp.edit();
-                editor.putString("usuario",usuario);
-                editor.commit();
-                //Toast.makeText(this,"Bienvenido "+usuario,Toast.LENGTH_SHORT).show();
-            }else if (usuario.equals("admin") && pass.equals("admin")){
-                Intent i = new Intent(this, Administrador.class);
-                i.putExtra("Usuario",usuario);
-                i.putExtra("Password",pass);
-                startActivity(i);
-                //Toast.makeText(MainActivity.this, "Bienvenido "+usuario, Toast.LENGTH_SHORT).show();
-              //  SharedPreferences
-                SharedPreferences sp=getSharedPreferences("datos", Context.MODE_PRIVATE);
+                                break;
+                            case "jefe_de_taller":
+                                Intent a=new Intent(MainActivity.this,Administrador.class);
+                                a.putExtra("id",id);
+                                startActivity(a);
+                                //  SharedPreferences
 
-                SharedPreferences.Editor editor=sp.edit();
-                editor.putString("usuario",usuario);
-                editor.commit();
-
-            }
-
-                else{
-                    //enviar alerta para notificar que usuario y/o contraseña son incorrectos
-                    AlertDialog.Builder alertdialog=new AlertDialog.Builder(this);
-                    alertdialog.setTitle("Datos Erroneos");
-                    alertdialog.setMessage("El usuario y/o contraseña son erroneos por favor intentar de nuevo");
-                    alertdialog.setCancelable(false);
-                    alertdialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // Accion al pulsar cancelar
-                            finish();
+                                break;
                         }
-                    });
-                    alertdialog.setPositiveButton("Volver a Intentar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //Accion al pulsar aceptar en cuadro de dialogo y darle al volver a intentar
-                            dialog.dismiss();
-                            user.setText("");
-                            contra.setText("");
-                        }
-                    });
-                    alertdialog.show();
+                        SharedPreferences sp=getSharedPreferences("datos", Context.MODE_PRIVATE);
+
+                        SharedPreferences.Editor editor=sp.edit();
+                        editor.putString("usuario",usuario);
+                        editor.commit();
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    HashMap<String,String> hashMap = new HashMap<String, String>();
+                    hashMap.put("usuario",usuario);
+                    hashMap.put("password",pass);
+
+                    return hashMap;
+                }
+            };
+            requestQueue.add(request);
         }
+
     }
+}
 
