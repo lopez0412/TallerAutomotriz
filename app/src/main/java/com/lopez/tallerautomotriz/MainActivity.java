@@ -1,5 +1,6 @@
 package com.lopez.tallerautomotriz;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     public void login(View v) {
         final String usuario = user.getText().toString();
         final String pass = contra.getText().toString();
+        final ProgressDialog progress;
 
         //validar que los campos no esten vacios
         if (usuario.isEmpty()) {
@@ -71,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
             contra.setError("Ingrese Contraseña");
             contra.setFocusable(true);
         }else {
+            progress = ProgressDialog.show(MainActivity.this, "Iniciando Sesion",
+                    "Espere...", true);
             final String URL="https://tallerservice.000webhostapp.com/taller.php?usu="+usuario+"&pas="+pass;
             request=new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
                 @Override
@@ -80,21 +84,27 @@ public class MainActivity extends AppCompatActivity {
                         int id=json.getInt("id");
                         String rol=json.getString("rol");
 
-                        switch (rol){
-                            case "cliente":
-                                Intent i=new Intent(MainActivity.this,Principal.class);
-                                i.putExtra("id",id);
-                                startActivity(i);
 
-                                break;
-                            case "jefe_de_taller":
-                                Intent a=new Intent(MainActivity.this,Administrador.class);
-                                a.putExtra("id",id);
-                                startActivity(a);
-                                //  SharedPreferences
 
-                                break;
-                        }
+                            switch (rol) {
+                                case "cliente":
+                                    Intent i = new Intent(MainActivity.this, Principal.class);
+                                    i.putExtra("id", id);
+                                    progress.dismiss();
+                                    startActivity(i);
+
+
+                                    break;
+                                case "jefe_de_taller":
+                                    Intent a = new Intent(MainActivity.this, Administrador.class);
+                                    a.putExtra("id", id);
+                                    progress.dismiss();
+                                    startActivity(a);
+                                    //  SharedPreferences
+
+                                    break;
+                            }
+
                         SharedPreferences sp=getSharedPreferences("datos", Context.MODE_PRIVATE);
 
                         SharedPreferences.Editor editor=sp.edit();
@@ -104,6 +114,27 @@ public class MainActivity extends AppCompatActivity {
 
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        progress.dismiss();
+                        AlertDialog.Builder alertdialog=new AlertDialog.Builder(MainActivity.this);
+                        alertdialog.setTitle("Datos Erroneos");
+                        alertdialog.setMessage("El usuario y/o contraseña son erroneos por favor intentar de nuevo");
+                        alertdialog.setCancelable(false);
+                        alertdialog.setNegativeButton("Salir", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Accion al pulsar cancelar
+                                finish();
+                            }
+                        });
+                        alertdialog.setPositiveButton("Volver a Intentar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Accion al pulsar aceptar en cuadro de dialogo y darle al volver a intentar
+                                dialog.dismiss();
+                                contra.setText("");
+                            }
+                        });
+                        alertdialog.show();
                     }
                 }
             }, new Response.ErrorListener() {
