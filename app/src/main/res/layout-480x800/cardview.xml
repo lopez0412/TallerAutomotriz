@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="2"
                 android:layout_marginTop="8dp"
-                android:textColor="#000"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="25sp"
                 android:layout_alignParentBottom="true"
                 />
@@ -65,7 +65,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_margin="8dp"
                     android:background="@android:color/transparent"
-                    android:textColor="#000"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="25sp"
                     android:text="Desde: "
 
@@ -78,7 +78,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_margin="8dp"
                     android:background="@android:color/transparent"
-                    android:textColor="#000"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="25sp"
 
                     />

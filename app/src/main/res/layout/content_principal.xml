@@ -13,6 +13,7 @@
     android:id="@+id/content_frame"
     tools:showIn="@layout/app_bar_principal"
     tools:context="com.lopez.tallerautomotriz.Principal"
+    android:background="#fff"
     >
 
    <!-- <ImageView

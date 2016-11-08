@@ -90,17 +90,17 @@ public class MainActivity extends AppCompatActivity {
                                 case "cliente":
                                     Intent i = new Intent(MainActivity.this, Principal.class);
                                     i.putExtra("id", id);
-                                    progress.dismiss();
                                     startActivity(i);
+                                    progress.dismiss();
 
 
                                     break;
                                 case "jefe_de_taller":
                                     Intent a = new Intent(MainActivity.this, Administrador.class);
                                     a.putExtra("id", id);
-                                    progress.dismiss();
                                     startActivity(a);
-                                    //  SharedPreferences
+                                    progress.dismiss();
+
 
                                     break;
                             }
