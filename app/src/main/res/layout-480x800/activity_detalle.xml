@@ -111,6 +111,7 @@
                     android:transitionName="fab">
 
                     <ImageView
+                        android:layout_marginStart="10dp"
                         android:id="@+id/img_fecha"
                         android:layout_width="32dp"
                         android:layout_height="40dp"
@@ -147,6 +148,7 @@
                     android:layout_alignParentStart="true">
 
                     <ImageView
+                        android:layout_marginStart="10dp"
                         android:id="@+id/img_hour"
                         android:layout_width="32dp"
                         android:layout_height="40dp"
@@ -185,7 +187,7 @@
                     android:checked="false" />
 
                 <Button
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Aceptar"
                     android:id="@+id/envia_res"
@@ -196,14 +198,16 @@
                     android:layout_marginTop="119dp" />
 
                 <Button
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Cancelar"
+
                     android:id="@+id/cancelar"
                     android:background="@drawable/button_circle_border2"
                     android:textColor="#fff"
-                    android:layout_alignBottom="@+id/envia_res"
-                    android:layout_alignParentEnd="true" />
+                    android:layout_below="@+id/envia_res"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="14dp" />
             </RelativeLayout>
 
             <RelativeLayout

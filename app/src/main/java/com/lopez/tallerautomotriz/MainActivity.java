@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +30,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainActivity extends AppCompatActivity {
     EditText user,contra;
@@ -63,8 +66,12 @@ public class MainActivity extends AppCompatActivity {
     public void login(View v) {
         final String usuario = user.getText().toString();
         final String pass = contra.getText().toString();
-        final ProgressDialog progress;
+       // final ProgressDialog progress;
+        final SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Iniciando Sesion");
 
+        pDialog.setCancelable(false);
         //validar que los campos no esten vacios
         if (usuario.isEmpty()) {
             user.setError("Ingrese Usuario");
@@ -73,8 +80,9 @@ public class MainActivity extends AppCompatActivity {
             contra.setError("Ingrese Contraseña");
             contra.setFocusable(true);
         }else {
-            progress = ProgressDialog.show(MainActivity.this, "Iniciando Sesion",
-                    "Espere...", true);
+            //progress = ProgressDialog.show(MainActivity.this, "Iniciando Sesion",
+                   // "Espere...", true);
+            pDialog.show();
             final String URL="https://tallerservice.000webhostapp.com/taller.php?usu="+usuario+"&pas="+pass;
             request=new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
                 @Override
@@ -91,7 +99,8 @@ public class MainActivity extends AppCompatActivity {
                                     Intent i = new Intent(MainActivity.this, Principal.class);
                                     i.putExtra("id", id);
                                     startActivity(i);
-                                    progress.dismiss();
+                                   // progress.dismiss();
+                                    pDialog.dismissWithAnimation();
 
 
                                     break;
@@ -99,7 +108,8 @@ public class MainActivity extends AppCompatActivity {
                                     Intent a = new Intent(MainActivity.this, Administrador.class);
                                     a.putExtra("id", id);
                                     startActivity(a);
-                                    progress.dismiss();
+                                    pDialog.dismissWithAnimation();
+
 
 
                                     break;
@@ -114,7 +124,8 @@ public class MainActivity extends AppCompatActivity {
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        progress.dismiss();
+                        //progress.dismiss();
+                        pDialog.dismissWithAnimation();
                         AlertDialog.Builder alertdialog=new AlertDialog.Builder(MainActivity.this);
                         alertdialog.setTitle("Datos Erroneos");
                         alertdialog.setMessage("El usuario y/o contraseña son erroneos por favor intentar de nuevo");

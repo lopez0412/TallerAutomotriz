@@ -3,7 +3,127 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.lopez.tallerautomotriz.Encuentranos"
-    android:background="#298FB2">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<include layout="@layout/activity_maps"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/contain"
+        android:background="@color/colorAccent"
+        android:orientation="vertical"
+        android:elevation="10dp"
+        android:layout_alignParentTop="true">
+
+        <LinearLayout
+            android:id="@+id/area_fecha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="107dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:transitionName="fab">
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_fecha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintTextAppearance="@style/Hint2"
+
+                >
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fecha"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="80dp"
+                    android:layout_alignParentEnd="true"
+                    android:inputType="date"
+                    android:drawableStart="@drawable/reservar"
+
+                    android:hint="Fecha" />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/area_hora"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:transitionName="fab"
+            android:layout_below="@+id/area_fecha"
+            android:layout_alignParentStart="true">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_hour"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintTextAppearance="@style/Hint2"
+
+
+
+                >
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/hora"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="80dp"
+                    android:layout_alignParentEnd="true"
+                    android:hint="Hora"
+                    android:drawableEnd="@drawable/clockciruclar"
+                    android:inputType="time"
+                    />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Con Repuesto"
+            android:id="@+id/checkBox"
+            android:layout_below="@+id/area_hora"
+            android:layout_alignParentStart="true"
+            android:checked="false" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/elegir_marca"
+            android:layout_below="@id/checkBox"
+            android:visibility="invisible">
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/marca">
+            </Spinner>
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Aceptar"
+            android:id="@+id/envia_res"
+            android:background="@drawable/button_circle_border2"
+            android:textColor="#fff"
+            android:layout_below="@+id/checkBox"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="119dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cancelar"
+
+            android:id="@+id/cancelar"
+            android:background="@drawable/button_circle_border2"
+            android:textColor="#fff"
+            android:layout_below="@+id/envia_res"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="14dp" />
+    </RelativeLayout>
 </RelativeLayout>

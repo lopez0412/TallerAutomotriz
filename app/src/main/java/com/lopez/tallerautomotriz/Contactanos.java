@@ -31,12 +31,12 @@ public class Contactanos extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        url="http://tallerservices.260mb.net/";
+        url="http://tallerservice.000webhostapp.com";
         myView=inflater.inflate(R.layout.fragment_contactanos, container, false);
 
 
         web=(TextView)myView.findViewById(R.id.textView4);
-        web.setText(Html.fromHtml("Pagina Web: "+"<a href=http://tallerservices.260mb.net/>"+url+"</a>"));
+        web.setText(Html.fromHtml("Pagina Web: "+"<a href=http://tallerservice.000webhostapp.com/>"+url+"</a>"));
         web.setMovementMethod(LinkMovementMethod.getInstance());
 
         return myView;

@@ -85,7 +85,7 @@ public class Detalle extends AppCompatActivity {
                     año = Año;
                     mes = monthOfaño;
                     dia = dayOfMonth;
-                    fechadereservacion.setText(((dia<10)?"0"+dia:dia) + "/" + ((mes<10)?"0"+mes:mes) + "/" + año );
+                    fechadereservacion.setText((dia) + "/" + (mes+1) + "/" + año );
                 }
             };
     private TimePickerDialog.OnTimeSetListener mTimeSetListener =
@@ -151,7 +151,7 @@ public class Detalle extends AppCompatActivity {
 
 
         //muestra la fecha de la forma 00/00/0000
-        fechadereservacion.setText( ((dia<10)?"0"+dia:dia) + "/" + ((mes<10)?"0"+mes:mes) + "/" + año );
+        fechadereservacion.setText( (dia) + "/" + (mes+1) + "/" + año );
         fechadereservacion.setFocusable(false);
         horadereservacion.setText(((hora<10)?"0"+hora:hora) + ":" + ((minuto<10)?"0"+minuto:minuto));
         horadereservacion.setFocusable(false);
@@ -291,7 +291,6 @@ public class Detalle extends AppCompatActivity {
     public void verDatePicker()
     {
         DatePickerDialog d = new DatePickerDialog( this , mDateSetListener, año, mes, dia );
-        d.getDatePicker().setMinDate(System.currentTimeMillis()-1000);
         d.show();
     }
 
