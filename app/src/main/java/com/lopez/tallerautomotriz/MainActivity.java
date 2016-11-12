@@ -10,11 +10,13 @@ import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
 import android.transition.Slide;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -29,6 +31,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     RequestQueue requestQueue;
 
     StringRequest request;
+    StringRequest request2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,9 +168,102 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void registrar(View v){
-        Dialog d=new Dialog(MainActivity.this);
+       final Dialog d=new Dialog(MainActivity.this);
         d.setContentView(R.layout.registrar);
 
+        final SweetAlertDialog pd = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        pd.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pd.setTitleText("Registrando");
+
+       final EditText correo=(EditText)d.findViewById(R.id.email_registro);
+       final EditText passw=(EditText)d.findViewById(R.id.password_registro);
+        final EditText passw2=(EditText)d.findViewById(R.id.password_registro2);
+       final EditText name=(EditText)d.findViewById(R.id.nombre);
+       final EditText phone=(EditText)d.findViewById(R.id.telefono);
+        Button aceptar=(Button)d.findViewById(R.id.acept);
+        aceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String mail,pas,pas2,nombre,telefono;
+                mail=correo.getText().toString();
+                pas=passw.getText().toString();
+                pas2=passw2.getText().toString();
+                nombre=name.getText().toString();
+                telefono=phone.getText().toString();
+
+                if (mail.isEmpty()){
+                    correo.setError("Ingrese su correo");
+                    correo.setFocusable(true);
+                }else if (pas.isEmpty()){
+                    passw.setError("Ingrese su contraseña");
+                    passw.setFocusable(true);
+                }else if (pas2.isEmpty()){
+                    passw2.setError("Repita su contraseña");
+                    passw2.setFocusable(true);
+                }
+                else if (nombre.isEmpty()){
+                    name.setError("Ingrese su Nombre");
+                    name.setFocusable(true);
+                }else if (telefono.isEmpty()){
+                    phone.setError("Ingrese su correo");
+                    phone.setFocusable(true);
+                }else if (!pas.equals(pas2)){
+                    passw2.setError("contraseñas deben ser iguales");
+                }else{
+                    pd.show();
+                    final String Urlingreso="https://tallerservice.000webhostapp.com/ingresousuario.php?correo="+mail+"&pass="+pas+"&nombre="+nombre+"&telefono="+telefono+"";
+                    final String url=Urlingreso.replace(" ","%20");
+                    request2=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject json=new JSONObject(response);
+                                int status=json.getInt("status");
+                                String msg=json.getString("msg");
+
+                                switch (status){
+                                    case 1:
+                                        pd.dismissWithAnimation();
+                                        Toast.makeText(MainActivity.this, "Usuario registrado correctamente, Puede iniciar sesion", Toast.LENGTH_SHORT).show();
+                                        d.dismiss();
+                                        break;
+                                    case 2:
+                                        pd.dismissWithAnimation();
+                                        Toast.makeText(MainActivity.this, "Algo Salio mal", Toast.LENGTH_SHORT).show();
+                                        d.dismiss();
+                                        break;
+                                }
+
+
+
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+
+
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                        }
+                    });
+                    requestQueue.add(request2);
+
+                }
+
+            }
+        });
+
+        Button cancelar=(Button)d.findViewById(R.id.cancel_action);
+        cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                d.dismiss();
+            }
+        });
 
         d.show();
     }
