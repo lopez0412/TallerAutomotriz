@@ -1,5 +1,6 @@
 package com.lopez.tallerautomotriz;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -153,19 +154,21 @@ public class MainActivity extends AppCompatActivity {
                 public void onErrorResponse(VolleyError error) {
 
                 }
-            }){
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    HashMap<String,String> hashMap = new HashMap<String, String>();
-                    hashMap.put("usuario",usuario);
-                    hashMap.put("password",pass);
-
-                    return hashMap;
-                }
-            };
+            });
             requestQueue.add(request);
         }
 
     }
+
+
+
+    public void registrar(View v){
+        Dialog d=new Dialog(MainActivity.this);
+        d.setContentView(R.layout.registrar);
+        EditText usuario=(EditText)d.findViewById(R.id.usuario_registro);
+
+        d.show();
+    }
+
 }
 

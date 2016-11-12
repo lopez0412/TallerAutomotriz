@@ -96,7 +96,7 @@
 </LinearLayout>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Iniciar Sesion"
         android:id="@+id/button"
@@ -112,15 +112,16 @@
         />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Registrar"
         android:id="@+id/button2"
         android:background="@drawable/button_circle_border2"
         android:textColor="#fff"
-        android:drawableStart="@drawable/form"
+        android:drawableStart="@drawable/newuser"
         android:layout_below="@+id/button"
         android:layout_alignStart="@+id/button"
         android:layout_marginTop="26dp"
-        android:layout_alignEnd="@+id/button" />
+        android:layout_alignEnd="@+id/button"
+        android:onClick="registrar" />
 </RelativeLayout>

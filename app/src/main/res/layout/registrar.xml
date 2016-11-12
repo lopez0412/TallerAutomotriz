@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="8dp">
+
+    <LinearLayout
+        android:id="@+id/area_usuario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="8dp">
+
+        <ImageView
+            android:id="@+id/img_user"
+            android:layout_width="32dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/user"
+            />
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintTextAppearance="@style/Hint"
+            android:layout_marginLeft="32dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="15"
+            app:counterOverflowTextAppearance="@style/CounterOverFlow"
+            app:counterTextAppearance="@style/Counter"
+            >
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/usuario_registro"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="80dp"
+                android:layout_alignParentEnd="true"
+
+                android:hint="USUARIO" />
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/area_pass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/area_usuario"
+        android:layout_alignParentLeft="true">
+
+        <ImageView
+            android:id="@+id/imag_pass"
+            android:layout_width="32dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/pass" />
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintTextAppearance="@style/Hint"
+            android:layout_marginLeft="32dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="15"
+            app:counterOverflowTextAppearance="@style/CounterOverFlow"
+            app:counterTextAppearance="@style/Counter"
+            app:errorEnabled="true"
+            >
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/password_registro"
+
+
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="44dp"
+                android:layout_alignParentStart="true"
+                android:hint="PASSWORD" />
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/area_nombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/area_pass"
+        android:layout_alignParentLeft="true">
+
+        <ImageView
+            android:id="@+id/imag_nombre"
+            android:layout_width="32dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/name" />
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_nombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintTextAppearance="@style/Hint"
+            android:layout_marginLeft="32dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="50"
+            app:counterOverflowTextAppearance="@style/CounterOverFlow"
+            app:counterTextAppearance="@style/Counter"
+            app:errorEnabled="true"
+            >
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:ems="10"
+                android:id="@+id/nombre"
+
+
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="44dp"
+                android:layout_alignParentStart="true"
+                android:hint="NOMBRE" />
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/area_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/area_nombre"
+        android:layout_alignParentLeft="true">
+
+        <ImageView
+            android:id="@+id/imag_email"
+            android:layout_width="32dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/at" />
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintTextAppearance="@style/Hint"
+            android:layout_marginLeft="32dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="50"
+            app:counterOverflowTextAppearance="@style/CounterOverFlow"
+            app:counterTextAppearance="@style/Counter"
+            app:errorEnabled="true"
+            >
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:ems="10"
+                android:id="@+id/email"
+                android:inputType="textEmailAddress"
+
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="44dp"
+                android:layout_alignParentStart="true"
+                android:hint="EMAIL" />
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+    <LinearLayout
+    android:id="@+id/area_telefono"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_alignParentStart="true"
+    android:layout_below="@+id/area_email"
+    android:layout_alignParentLeft="true">
+
+    <ImageView
+        android:id="@+id/imag_telefono"
+        android:layout_width="32dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/phone" />
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/til_telefono"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:hintTextAppearance="@style/Hint"
+        android:layout_marginLeft="32dp"
+        app:counterEnabled="true"
+        app:counterMaxLength="8"
+        app:counterOverflowTextAppearance="@style/CounterOverFlow"
+        app:counterTextAppearance="@style/Counter"
+        app:errorEnabled="true"
+        >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:ems="10"
+            android:id="@+id/telefono"
+            android:inputType="number"
+
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="44dp"
+            android:layout_alignParentStart="true"
+            android:hint="TELEFONO" />
+    </android.support.design.widget.TextInputLayout>
+</LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Aceptar"
+        android:id="@+id/acept"
+        android:background="@drawable/button_circle_border2"
+        android:textColor="#fff"
+        android:drawableStart="@drawable/checked"
+
+
+        android:layout_below="@+id/area_telefono"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cancelar"
+        android:id="@+id/cancel_action"
+        android:background="@drawable/button_circle_border2"
+        android:textColor="#fff"
+        android:drawableStart="@drawable/cancel"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/acept"
+        android:layout_alignParentStart="true" />
+</RelativeLayout>
