@@ -35,7 +35,7 @@
             app:hintTextAppearance="@style/Hint"
             android:layout_marginLeft="32dp"
             app:counterEnabled="true"
-            app:counterMaxLength="15"
+            app:counterMaxLength="50"
             app:counterOverflowTextAppearance="@style/CounterOverFlow"
             app:counterTextAppearance="@style/Counter"
             >
@@ -48,7 +48,7 @@
                 android:layout_marginTop="80dp"
                 android:layout_alignParentEnd="true"
 
-                android:hint="USUARIO" />
+                android:hint="EMAIL" />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
     <LinearLayout

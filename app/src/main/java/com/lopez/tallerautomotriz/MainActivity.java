@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         pDialog.setCancelable(false);
         //validar que los campos no esten vacios
         if (usuario.isEmpty()) {
-            user.setError("Ingrese Usuario");
+            user.setError("Ingrese su correo electronico");
             user.setFocusable(true);
         }else if (pass.isEmpty()){
             contra.setError("Ingrese Contraseña");
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             //progress = ProgressDialog.show(MainActivity.this, "Iniciando Sesion",
                    // "Espere...", true);
             pDialog.show();
-            final String URL="https://tallerservice.000webhostapp.com/taller.php?usu="+usuario+"&pas="+pass;
+            final String URL="https://tallerservice.000webhostapp.com/taller.php?correo="+usuario+"&pas="+pass;
             request=new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                         pDialog.dismissWithAnimation();
                         AlertDialog.Builder alertdialog=new AlertDialog.Builder(MainActivity.this);
                         alertdialog.setTitle("Datos Erroneos");
-                        alertdialog.setMessage("El usuario y/o contraseña son erroneos por favor intentar de nuevo");
+                        alertdialog.setMessage("El Correo y/o contraseña son erroneos por favor intentar de nuevo");
                         alertdialog.setCancelable(false);
                         alertdialog.setNegativeButton("Salir", new DialogInterface.OnClickListener() {
                             @Override
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
     public void registrar(View v){
         Dialog d=new Dialog(MainActivity.this);
         d.setContentView(R.layout.registrar);
-        EditText usuario=(EditText)d.findViewById(R.id.usuario_registro);
+
 
         d.show();
     }
