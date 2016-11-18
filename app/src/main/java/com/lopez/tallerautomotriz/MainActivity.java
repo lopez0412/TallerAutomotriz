@@ -96,6 +96,9 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         JSONObject json=new JSONObject(response);
                         int id=json.getInt("id");
+                        String nombre=json.getString("nombre");
+                        String email=json.getString("correo");
+                        String phone=json.getString("telefono");
                         String rol=json.getString("rol");
 
 
@@ -104,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
                                 case "cliente":
                                     Intent i = new Intent(MainActivity.this, Principal.class);
                                     i.putExtra("id", id);
+                                    i.putExtra("name",nombre);
+                                    i.putExtra("mail",email);
+                                    i.putExtra("tel",phone);
                                     startActivity(i);
                                    // progress.dismiss();
                                     pDialog.dismissWithAnimation();
@@ -113,6 +119,9 @@ public class MainActivity extends AppCompatActivity {
                                 case "jefe_de_taller":
                                     Intent a = new Intent(MainActivity.this, Administrador.class);
                                     a.putExtra("id", id);
+                                    a.putExtra("name",nombre);
+                                    a.putExtra("mail",email);
+                                    a.putExtra("tel",phone);
                                     startActivity(a);
                                     pDialog.dismissWithAnimation();
 

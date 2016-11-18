@@ -1,5 +1,6 @@
 package com.lopez.tallerautomotriz;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class Administrador extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -25,6 +27,13 @@ public class Administrador extends AppCompatActivity
         setContentView(R.layout.activity_administrador);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        int id;
+        String nombre,correo,telefono;
+        Intent recibe=getIntent();
+        id=recibe.getIntExtra("id",0);
+        nombre=recibe.getStringExtra("name");
+        correo=recibe.getStringExtra("mail");
+        telefono=recibe.getStringExtra("tel");
 
 
 
@@ -54,6 +63,12 @@ public class Administrador extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
+
+        View hView =  navigationView.getHeaderView(0);
+        TextView nav_nombre = (TextView)hView.findViewById(R.id.usu);
+        nav_nombre.setText(nombre);
+        TextView nav_correo =(TextView)hView.findViewById(R.id.pwrd);
+        nav_correo.setText(correo);
     }
 
     @Override

@@ -50,9 +50,14 @@ public class Principal extends AppCompatActivity
         overridePendingTransition(R.anim.open_traslate,R.anim.close_scale);
 
         //trae las variables enviadas por el intent del login
-        String usuario;
+        int id;
+        String nombre,correo,telefono;
         Intent recibe=getIntent();
-        usuario=recibe.getStringExtra("Usuario");
+        id=recibe.getIntExtra("id",0);
+        nombre=recibe.getStringExtra("name");
+        correo=recibe.getStringExtra("mail");
+        telefono=recibe.getStringExtra("tel");
+
 
 
 
@@ -144,10 +149,10 @@ public class Principal extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         View hView =  navigationView.getHeaderView(0);
-        TextView nav_carnet = (TextView)hView.findViewById(R.id.usu);
-        nav_carnet.setText("Usuario: " + usuario);
-        TextView nav_nombre =(TextView)hView.findViewById(R.id.pwrd);
-        nav_nombre.setText(usuario);
+        TextView nav_nombre = (TextView)hView.findViewById(R.id.usu);
+        nav_nombre.setText(nombre);
+        TextView nav_correo =(TextView)hView.findViewById(R.id.pwrd);
+        nav_correo.setText(correo);
 
     }
 
