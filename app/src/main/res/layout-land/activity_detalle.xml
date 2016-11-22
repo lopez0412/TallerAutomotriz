@@ -291,6 +291,7 @@
                     android:layout_marginLeft="@dimen/card_margin"
                     android:layout_marginRight="@dimen/card_margin"
                     android:elevation="15dp"
+                    android:id="@+id/card_horarios"
                     android:layout_below="@+id/card_price">
 
                     <LinearLayout
@@ -302,8 +303,54 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Calendario"
+                            android:text="Horarios"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="De Lunes a Viernes"
+                            android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="De 8:00am a 5:00pm"
+                            android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle" />
+
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/card_margin"
+                    android:layout_marginLeft="@dimen/card_margin"
+                    android:layout_marginRight="@dimen/card_margin"
+                    android:elevation="15dp"
+                    android:layout_below="@+id/card_horarios">
+
+                    <LinearLayout
+                        style="@style/Widget.CardContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Importante"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Si el servicio requiere el repuesto para su automovil, y no lo posee porfavor especificar la marca, el modelo y el año del vehiculo para poder realizar una cotizacion"
+                            android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Pueden realizarse cargos extra por repuestos, se le notificara"
+                            android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle" />
+
 
                     </LinearLayout>
 

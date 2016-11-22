@@ -140,6 +140,8 @@ public class Detalle extends AppCompatActivity {
             linearLayout.setVisibility(View.VISIBLE);
         }
 
+
+
         //Obtiene fecha actual y coloca en el textview
         Calendar c = Calendar.getInstance();
         año = c.get(Calendar.YEAR);
