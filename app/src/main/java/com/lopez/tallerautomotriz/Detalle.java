@@ -19,6 +19,7 @@ import android.support.v4.util.Pair;
 import android.support.v4.util.TimeUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
 import android.transition.Transition;
@@ -33,12 +34,15 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -72,9 +76,12 @@ public class Detalle extends AppCompatActivity {
     private int dia;
     private int hora;
     private int minuto;
+    boolean check;
     NetworkImageView image;
     View viewRoot;
     LinearLayout linearLayout;
+    Spinner marca,modelo;
+    CardView notaimp;
 
     private DatePickerDialog.OnDateSetListener mDateSetListener =
             new DatePickerDialog.OnDateSetListener() {
@@ -129,6 +136,10 @@ public class Detalle extends AppCompatActivity {
         horadereservacion=(EditText)findViewById(R.id.hora);
         checkBox=(CheckBox)findViewById(R.id.checkBox);
         linearLayout=(LinearLayout)findViewById(R.id.elegir_marca);
+        marca=(Spinner)findViewById(R.id.marca);
+        modelo=(Spinner)findViewById(R.id.modelo);
+        notaimp=(CardView)findViewById(R.id.notaimportante);
+
         //condicion en la que ve el servicio y se evalua si se va a usar repuesto o no
         if(id==3 || id==7 || id==10 || id==11 || id==12 || id==13){
             checkBox.setVisibility(View.GONE);
@@ -136,9 +147,24 @@ public class Detalle extends AppCompatActivity {
             checkBox.setVisibility(View.VISIBLE);
         }
         //si el checkbox esta marcado habilitara otras vistas
-        if (checkBox.isChecked()){
-            linearLayout.setVisibility(View.VISIBLE);
-        }
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if (isChecked){
+                    linearLayout.setVisibility(View.VISIBLE);
+                    check =true;
+                }else {
+                    linearLayout.setVisibility(View.INVISIBLE);
+                    check =false;
+                }
+            }
+        });
+
+        String []marcas={"audi","bmw","chevrolet","kia","mazda","toyota"};
+
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_dropdown_item_1line,marcas);
+        marca.setAdapter(adapter);
 
 
 
@@ -266,6 +292,8 @@ public class Detalle extends AppCompatActivity {
             fab.setVisibility(View.INVISIBLE);
             newview.setVisibility(View.VISIBLE);
             viewRoot.setBackgroundResource(R.color.colorAccent );
+            notaimp.setVisibility(View.INVISIBLE);
+
             for (int i = 0; i < newview.getChildCount(); i++) {
                 View v = newview.getChildAt(i);
                 ViewPropertyAnimator animator = v.animate()
