@@ -13,16 +13,9 @@
     android:id="@+id/content_frame"
     tools:showIn="@layout/app_bar_principal"
     tools:context="com.lopez.tallerautomotriz.Principal"
-    android:background="#fff"
+    android:background="@drawable/fondogradient6"
     >
 
-   <!-- <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView2"
-
-        android:src="@drawable/tallerconcept"
-        android:layout_alignParentStart="true" />-->
 
    <TextView
        android:layout_width="wrap_content"
@@ -32,7 +25,7 @@
        android:id="@+id/textView2"
        android:layout_alignParentTop="true"
        android:layout_centerHorizontal="true"
-       android:textColor="#000"
+       android:textColor="#fff"
        />
    <GridView
        android:layout_width="wrap_content"

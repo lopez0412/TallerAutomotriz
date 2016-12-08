@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.Image;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -35,6 +36,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -47,12 +49,26 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Timer;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class Detalle extends AppCompatActivity {
     String name;
@@ -61,9 +77,10 @@ public class Detalle extends AppCompatActivity {
     View fabicon;
     EditText fechadereservacion,horadereservacion;
     double precio;
-    int id;
+    int id, idusuario;
     String descripcion;
     ViewGroup newview;
+    RequestQueue requestQueue;
     FloatingActionButton fab;
     CheckBox checkBox;
     public final static float SCALE_FACTOR      = 13f;
@@ -76,12 +93,15 @@ public class Detalle extends AppCompatActivity {
     private int dia;
     private int hora;
     private int minuto;
+    boolean repuesto;
     boolean check;
     NetworkImageView image;
     View viewRoot;
     LinearLayout linearLayout;
     Spinner marca,modelo;
     CardView notaimp;
+    Button enviarres,cancel;
+    StringRequest request;
 
     private DatePickerDialog.OnDateSetListener mDateSetListener =
             new DatePickerDialog.OnDateSetListener() {
@@ -92,7 +112,7 @@ public class Detalle extends AppCompatActivity {
                     año = Año;
                     mes = monthOfaño;
                     dia = dayOfMonth;
-                    fechadereservacion.setText((dia) + "/" + (mes+1) + "/" + año );
+                    fechadereservacion.setText((dia) + "-" + (mes+1) + "-" + año );
                 }
             };
     private TimePickerDialog.OnTimeSetListener mTimeSetListener =
@@ -101,8 +121,12 @@ public class Detalle extends AppCompatActivity {
           public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
               hora=hourOfDay;
               minuto=minute;
+              if (hora<8 || hora>16){
+                  Toast.makeText(Detalle.this, "Hora debe ser entre las 8:00 am y las 04:00pm", Toast.LENGTH_SHORT).show();
+              }else {
               horadereservacion.setText(((hora<10)?"0"+hora:hora) + ":" + ((minuto<10)?"0"+minuto:minuto) );
           }
+      }
       };
 
 
@@ -118,7 +142,9 @@ public class Detalle extends AppCompatActivity {
         precio = recibe.getDoubleExtra("precio",0.0);
         id=recibe.getIntExtra("id",0);
         descripcion=recibe.getStringExtra("descript");
+        idusuario=recibe.getIntExtra("idusuario",0);
 
+        requestQueue=VolleySingleton.getInstance().getRequestQueue();
 
         setToolbar();
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -140,11 +166,16 @@ public class Detalle extends AppCompatActivity {
         modelo=(Spinner)findViewById(R.id.modelo);
         notaimp=(CardView)findViewById(R.id.notaimportante);
 
+        enviarres=(Button)findViewById(R.id.envia_res);
+        cancel=(Button)findViewById(R.id.cancelar);
+
         //condicion en la que ve el servicio y se evalua si se va a usar repuesto o no
-        if(id==3 || id==7 || id==10 || id==11 || id==12 || id==13){
+        if(id==4 ||id==3 || id==7 || id==10 || id==11 || id==12 || id==13){
             checkBox.setVisibility(View.GONE);
+            repuesto=false;
         }else{
             checkBox.setVisibility(View.VISIBLE);
+            repuesto=true;
         }
         //si el checkbox esta marcado habilitara otras vistas
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -153,10 +184,11 @@ public class Detalle extends AppCompatActivity {
 
                 if (isChecked){
                     linearLayout.setVisibility(View.VISIBLE);
-                    check =true;
+                    check =false;
                 }else {
                     linearLayout.setVisibility(View.INVISIBLE);
-                    check =false;
+                    check =true;
+
                 }
             }
         });
@@ -172,17 +204,22 @@ public class Detalle extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         año = c.get(Calendar.YEAR);
         mes = c.get(Calendar.MONTH);
-        dia = c.get(Calendar.DAY_OF_MONTH);
+        dia = (c.get(Calendar.DAY_OF_MONTH))+1;
         hora=c.get(Calendar.HOUR_OF_DAY);
         minuto=c.get(Calendar.MINUTE);
 
 
 
         //muestra la fecha de la forma 00/00/0000
-        fechadereservacion.setText( (dia) + "/" + (mes+1) + "/" + año );
+        fechadereservacion.setText( (dia) + "-" + (mes+1) + "-" + año );
         fechadereservacion.setFocusable(false);
-        horadereservacion.setText(((hora<10)?"0"+hora:hora) + ":" + ((minuto<10)?"0"+minuto:minuto));
-        horadereservacion.setFocusable(false);
+        if (hora<7 || hora>15){
+            hora=12;
+            horadereservacion.setText(hora+":"+minuto);
+        }else {
+            horadereservacion.setText(((hora < 10) ? "0" + hora : hora) + ":" + ((minuto < 10) ? "0" + minuto : minuto));
+            horadereservacion.setFocusable(false);
+        }
 
 
         fechadereservacion.setOnClickListener(new View.OnClickListener() {
@@ -321,6 +358,7 @@ public class Detalle extends AppCompatActivity {
     public void verDatePicker()
     {
         DatePickerDialog d = new DatePickerDialog( this , mDateSetListener, año, mes, dia );
+        d.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         d.show();
     }
 
@@ -329,4 +367,63 @@ public class Detalle extends AppCompatActivity {
         TimePickerDialog t = new TimePickerDialog( this, mTimeSetListener, hora,minuto,false);
         t.show();
     }
+    public void Registroreserva(View v) throws ParseException {
+        String urlingreso;
+        String day=fechadereservacion.getText().toString();
+        String hour = horadereservacion.getText().toString();
+
+
+        final SweetAlertDialog pd = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        pd.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pd.setTitleText("Reservando");
+        pd.show();
+
+
+        if(repuesto){
+            //requiere repuesto
+            if(check){
+                //lleva el repuesto
+                urlingreso="http://tallerservice.000webhostapp.com/ingresoreservaconrepuesto.php?usu="+idusuario+"&serv="+id+"&fech="+day+"&hour="+hour;
+            }else {
+                //no lleva el repuesto
+                urlingreso="http://tallerservice.000webhostapp.com/ingresoreservasinrepuesto.php?usu="+idusuario+"&serv="+id+"&fech="+day+"&hour="+hour+"&marca=6&modelo=11&anio=2006";
+            }
+        }else {
+            //no requiere repuesto
+            urlingreso="http://tallerservice.000webhostapp.com/ingresoreserva.php?usu="+idusuario+"&serv="+id+"&fech="+day+"&hour="+hour;
+        }
+
+
+        request=new StringRequest(Request.Method.GET, urlingreso, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject json=new JSONObject(response);
+                    int status=json.getInt("status");
+                    switch (status){
+                        case 1:
+                            pd.dismissWithAnimation();
+                            Toast.makeText(Detalle.this, "Su reservacion fue realizada correctamente", Toast.LENGTH_SHORT).show();
+                            break;
+                        case 2:
+                            pd.dismissWithAnimation();
+                            Toast.makeText(Detalle.this, "Algo Salio mal, intenta de nuevo", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        requestQueue.add(request);
+
+
+
+    }
+
 }

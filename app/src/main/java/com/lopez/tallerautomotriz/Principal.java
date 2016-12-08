@@ -36,6 +36,7 @@ public class Principal extends AppCompatActivity
     GridView gridView;
     ArrayList<Item> gridArray=new ArrayList<Item>();
     GridAdapterView gridAdapterView;
+    int idusu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +51,10 @@ public class Principal extends AppCompatActivity
         overridePendingTransition(R.anim.open_traslate,R.anim.close_scale);
 
         //trae las variables enviadas por el intent del login
-        int id;
+
         String nombre,correo,telefono;
         Intent recibe=getIntent();
-        id=recibe.getIntExtra("id",0);
+        idusu=recibe.getIntExtra("id",0);
         nombre=recibe.getStringExtra("name");
         correo=recibe.getStringExtra("mail");
         telefono=recibe.getStringExtra("tel");
@@ -62,10 +63,10 @@ public class Principal extends AppCompatActivity
 
 
         //iconos de gridView
-        Bitmap Servicios = BitmapFactory.decodeResource(this.getResources(),R.drawable.taller_icon);
-        Bitmap Promociones = BitmapFactory.decodeResource(this.getResources(),R.drawable.promociones);
-        Bitmap Contact = BitmapFactory.decodeResource(this.getResources(),R.drawable.contactanos);
-        Bitmap Location = BitmapFactory.decodeResource(this.getResources(),R.drawable.location);
+        Bitmap Servicios = BitmapFactory.decodeResource(this.getResources(),R.drawable.screwdriver_and_wrench_crossed);
+        Bitmap Promociones = BitmapFactory.decodeResource(this.getResources(),R.drawable.black_shop_tag);
+        Bitmap Contact = BitmapFactory.decodeResource(this.getResources(),R.drawable.phone_receiver);
+        Bitmap Location = BitmapFactory.decodeResource(this.getResources(),R.drawable.placeholder);
 
 
 
@@ -113,6 +114,9 @@ public class Principal extends AppCompatActivity
                 if(fragmentTransaction) {
                     /*RelativeLayout layout=(RelativeLayout)findViewById(R.id.content_frame);
                     layout.removeAllViewsInLayout();*/
+                    Bundle args=new Bundle();
+                    args.putInt("idusu", idusu);
+                    fragment.setArguments(args);
                     getSupportFragmentManager().beginTransaction()
                             .setCustomAnimations(R.anim.open_traslate,R.anim.close_scale,R.anim.open_fregment_scale,R.anim.close_traslate)
                             .replace(R.id.content_frame, fragment)

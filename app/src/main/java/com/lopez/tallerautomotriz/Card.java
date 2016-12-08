@@ -2,7 +2,7 @@ package com.lopez.tallerautomotriz;
 
 
 public class Card {
-    private int id;
+    private int id,idusua;
     private String titulo;
     private String imagen;
     private double precio;
@@ -41,6 +41,14 @@ public class Card {
 
     public String getDescripcion() {
         return descripcion;
+    }
+
+    public int getIdusua() {
+        return idusua;
+    }
+
+    public void setIdusua(int idusua) {
+        this.idusua = idusua;
     }
 
     public void setDescripcion(String descripcion) {

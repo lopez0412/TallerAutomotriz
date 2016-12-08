@@ -118,6 +118,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     double price=cardsList.get(adapterPosition).getPrecio();
                     String descript=cardsList.get(adapterPosition).getDescripcion();
                     int id=cardsList.get(adapterPosition).getId();
+                    int iduser=cardsList.get(adapterPosition).getIdusua();
 
                     Intent enviar=new Intent(context,Detalle.class);
                     enviar.putExtra("titulo",title);
@@ -125,6 +126,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     enviar.putExtra("precio",price);
                     enviar.putExtra("id",id);
                     enviar.putExtra("descript",descript);
+                    enviar.putExtra("idusuario",iduser);
 
                     (context).startActivity(enviar,optionsCompat.toBundle());
 

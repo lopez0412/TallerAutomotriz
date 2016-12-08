@@ -51,6 +51,7 @@ public class Servicios extends Fragment {
     private RecyclerAdapter adapter;
 
     BookLoading bookLoading;
+    int idusuario;
 
     View myFragmentView;
 
@@ -66,6 +67,7 @@ public class Servicios extends Fragment {
         myFragmentView = inflater.inflate(R.layout.fragment_servicios, container, false);
 
         recyclerView = (RecyclerView) myFragmentView.findViewById(R.id.lista);
+        idusuario=getArguments().getInt("idusu");
 
         bookLoading= (BookLoading)myFragmentView.findViewById(R.id.progressBar3);
         bookLoading.start();
@@ -108,6 +110,7 @@ public class Servicios extends Fragment {
                 card.setPrecio(object.getDouble("precio"));
                 card.setImagen(object.getString("imagen"));
                 card.setDescripcion(object.getString("descripcion"));
+                card.setIdusua(idusuario);
                 lista.add(card);
             }
         } catch (JSONException e) {
