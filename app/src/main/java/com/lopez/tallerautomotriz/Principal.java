@@ -1,7 +1,9 @@
 package com.lopez.tallerautomotriz;
 
 import android.animation.Animator;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -36,7 +38,9 @@ public class Principal extends AppCompatActivity
     GridView gridView;
     ArrayList<Item> gridArray=new ArrayList<Item>();
     GridAdapterView gridAdapterView;
+    SharedPreferences sp;
     int idusu;
+    String nombre,correo,telefono;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +56,13 @@ public class Principal extends AppCompatActivity
 
         //trae las variables enviadas por el intent del login
 
-        String nombre,correo,telefono;
-        Intent recibe=getIntent();
-        idusu=recibe.getIntExtra("id",0);
-        nombre=recibe.getStringExtra("name");
-        correo=recibe.getStringExtra("mail");
-        telefono=recibe.getStringExtra("tel");
+        sp=getSharedPreferences("datos", Context.MODE_PRIVATE);
+
+        nombre=String.valueOf(sp.getString("nombre",""));
+        idusu=Integer.valueOf(sp.getInt("id", 0));
+
+        correo=String.valueOf(sp.getString("usuario",""));
+        telefono=String.valueOf(sp.getString("telefono",""));
 
 
 
@@ -115,7 +120,6 @@ public class Principal extends AppCompatActivity
                     /*RelativeLayout layout=(RelativeLayout)findViewById(R.id.content_frame);
                     layout.removeAllViewsInLayout();*/
                     Bundle args=new Bundle();
-                    args.putInt("idusu", idusu);
                     fragment.setArguments(args);
                     getSupportFragmentManager().beginTransaction()
                             .setCustomAnimations(R.anim.open_traslate,R.anim.close_scale,R.anim.open_fregment_scale,R.anim.close_traslate)
@@ -190,7 +194,16 @@ public class Principal extends AppCompatActivity
             Intent i= new Intent(this,Integrantes.class);
             startActivity(i);
 
+        }if (id==R.id.misreservaciones){
+            Intent b= new Intent(this,Reservaciones.class);
+            b.putExtra("idUsuario",idusu);
+            startActivity(b);
         }
+        if(id==R.id.action_settings){
+            Intent c=new Intent(this,mostrarPreferencias.class);
+            startActivity(c);
+        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -222,6 +235,14 @@ public class Principal extends AppCompatActivity
             /*
             fragment = new Encuentranos();
             fragmentTransaction = true;*/
+        }
+        else if (id == R.id.cerrarsesion) {
+            Intent i=new Intent(getApplicationContext(),MainActivity.class);
+            SharedPreferences.Editor editor=sp.edit();
+            editor.clear();
+            editor.commit();
+            startActivity(i);
+
         }
         if(fragmentTransaction) {
 

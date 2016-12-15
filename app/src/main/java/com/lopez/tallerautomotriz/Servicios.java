@@ -3,7 +3,9 @@ package com.lopez.tallerautomotriz;
 
 import android.animation.Animator;
 import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -49,6 +51,7 @@ public class Servicios extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList<Card> cardsList = new ArrayList<>();
     private RecyclerAdapter adapter;
+    SharedPreferences sp;
 
     BookLoading bookLoading;
     int idusuario;
@@ -67,7 +70,8 @@ public class Servicios extends Fragment {
         myFragmentView = inflater.inflate(R.layout.fragment_servicios, container, false);
 
         recyclerView = (RecyclerView) myFragmentView.findViewById(R.id.lista);
-        idusuario=getArguments().getInt("idusu");
+        sp=this.getActivity().getSharedPreferences("datos", Context.MODE_PRIVATE);
+        idusuario=Integer.valueOf(sp.getInt("id", 0));
 
         bookLoading= (BookLoading)myFragmentView.findViewById(R.id.progressBar3);
         bookLoading.start();

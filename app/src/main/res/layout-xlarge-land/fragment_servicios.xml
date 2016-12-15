@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context="com.lopez.tallerautomotriz.Servicios"
 
-    android:background="@drawable/fondogradient6">
+    android:background="@drawable/fondo2">
 
 
     <android.support.v7.widget.RecyclerView

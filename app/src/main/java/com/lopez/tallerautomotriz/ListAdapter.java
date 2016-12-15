@@ -29,14 +29,14 @@ public ListAdapter(Activity context, String[] itemname, Integer[] integers,Strin
 public View getView(int posicion, View view, ViewGroup parent){
 
         LayoutInflater inflater=context.getLayoutInflater();
-        View rowView=inflater.inflate(R.layout.cardview,null,true);
+        View rowView=inflater.inflate(R.layout.row,null,true);
 
-        TextView txtTitle = (TextView) rowView.findViewById(R.id.list_item_google_cards_shop_discount);
+        TextView txtTitle = (TextView) rowView.findViewById(R.id.texto_principal);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.list_item_google_cards_shop_image);
         TextView etxDescripcion = (TextView) rowView.findViewById(R.id.list_item_google_cards_shop_price);
 
         txtTitle.setText(itemname[posicion]);
-        imageView.setImageResource(integers[posicion]);
+        imageView.setImageResource(R.drawable.form);
         etxDescripcion.setText(itemsec[posicion]);
 
         return rowView;

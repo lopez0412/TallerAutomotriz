@@ -17,6 +17,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -45,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
 
     StringRequest request;
     StringRequest request2;
+    CheckBox checkBox;
+    boolean recordar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,16 +58,50 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         user=(EditText)findViewById(R.id.usuario);
         contra=(EditText)findViewById(R.id.password);
+        checkBox=(CheckBox)findViewById(R.id.checkBox2);
         //  SharedPreferences
 
         sp=getSharedPreferences("datos", Context.MODE_PRIVATE);
 
         String valor=String.valueOf(sp.getString("usuario"," "));
+        String pass=String.valueOf(sp.getString("pass"," "));
+        String rol=String.valueOf(sp.getString("rol"," "));
         user.setText(valor);
+        contra.setText(pass);
+
+        if (valor!="" && pass!=""){
+            switch (rol) {
+                case "cliente":
+                    Intent i = new Intent(MainActivity.this, Principal.class);
+                    startActivity(i);
+                    // progress.dismiss();
+
+
+                    break;
+                case "jefe_de_taller":
+                    Intent a = new Intent(MainActivity.this, Administrador.class);
+                    startActivity(a);
+
+
+
+                    break;
+            }
+        }
 
         requestQueue=VolleySingleton.getInstance().getRequestQueue();
 
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    recordar=true;
+                }
+                else {
+                    recordar=false;
+                }
 
+            }
+        });
     }
 
 
@@ -106,10 +144,7 @@ public class MainActivity extends AppCompatActivity {
                             switch (rol) {
                                 case "cliente":
                                     Intent i = new Intent(MainActivity.this, Principal.class);
-                                    i.putExtra("id", id);
-                                    i.putExtra("name",nombre);
-                                    i.putExtra("mail",email);
-                                    i.putExtra("tel",phone);
+
                                     startActivity(i);
                                    // progress.dismiss();
                                     pDialog.dismissWithAnimation();
@@ -118,10 +153,7 @@ public class MainActivity extends AppCompatActivity {
                                     break;
                                 case "jefe_de_taller":
                                     Intent a = new Intent(MainActivity.this, Administrador.class);
-                                    a.putExtra("id", id);
-                                    a.putExtra("name",nombre);
-                                    a.putExtra("mail",email);
-                                    a.putExtra("tel",phone);
+
                                     startActivity(a);
                                     pDialog.dismissWithAnimation();
 
@@ -132,8 +164,19 @@ public class MainActivity extends AppCompatActivity {
 
                         SharedPreferences sp=getSharedPreferences("datos", Context.MODE_PRIVATE);
 
-                        SharedPreferences.Editor editor=sp.edit();
-                        editor.putString("usuario",usuario);
+                        final SharedPreferences.Editor editor=sp.edit();
+                        editor.putString("usuario",email);
+                        editor.putInt("id",id);
+                        editor.putString("nombre",nombre);
+                        editor.putString("telefono",phone);
+
+                        if (recordar){
+                            editor.putString("pass",pass);
+                        }else
+                        {
+                            editor.putString("pass","");
+                        }
+                        editor.putString("rol",rol);
                         editor.commit();
 
 

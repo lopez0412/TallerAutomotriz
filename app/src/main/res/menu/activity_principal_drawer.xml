@@ -9,19 +9,24 @@
         <item
             android:id="@+id/nav_servicios"
             android:icon="@drawable/taller_icon"
-            android:title="Nuestros Servicios" />
+            android:title="@string/servicios" />
         <item
             android:id="@+id/nav_promotions"
             android:icon="@drawable/promociones"
-            android:title="Promociones" />
+            android:title="@string/promociones" />
         <item
             android:id="@+id/nav_contact"
             android:icon="@drawable/contactanos"
-            android:title="Contactanos" />
+            android:title="@string/contactanos" />
         <item
             android:id="@+id/nav_buscanos"
             android:icon="@drawable/location"
-            android:title="Encuentranos" />
+            android:title="@string/encuentranos" />
+    </group>
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/cerrarsesion"
+            android:icon="@drawable/shutdown_icon_flat"
+            android:title="@string/cerrarsesion"/>
     </group>
 
    <!-- <item android:title="Communicate">

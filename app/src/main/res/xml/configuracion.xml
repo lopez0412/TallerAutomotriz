@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:key="general"
+        android:title="General">
+        <CheckBoxPreference
+            android:key="datosvehiculo"
+            android:title="Guardar Datos del Vehiculo"
+            android:defaultValue="false" />
+
+</PreferenceCategory>
+    <PreferenceScreen
+        android:key="pref_gen"
+        android:title="Informacion">
+        <intent android:action="your.action.string"/>
+        </PreferenceScreen>
+
+</PreferenceScreen>

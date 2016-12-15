@@ -7,9 +7,12 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.Image;
+import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -26,6 +29,7 @@ import android.support.v7.widget.Toolbar;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -35,6 +39,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -53,19 +58,23 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -78,9 +87,10 @@ public class Detalle extends AppCompatActivity {
     EditText fechadereservacion,horadereservacion;
     double precio;
     int id, idusuario;
+    JsonObjectRequest array,array2;
     String descripcion;
     ViewGroup newview;
-    RequestQueue requestQueue;
+    RequestQueue requestQueue,requestQueue2;
     FloatingActionButton fab;
     CheckBox checkBox;
     public final static float SCALE_FACTOR      = 13f;
@@ -93,15 +103,25 @@ public class Detalle extends AppCompatActivity {
     private int dia;
     private int hora;
     private int minuto;
+    List<Integer> listaid=new ArrayList<Integer>();
     boolean repuesto;
+    private final String TAG = "Prueba";
     boolean check;
     NetworkImageView image;
     View viewRoot;
     LinearLayout linearLayout;
-    Spinner marca,modelo;
+    Spinner marca,modelo,anio;
     CardView notaimp;
+    SharedPreferences sp;
     Button enviarres,cancel;
     StringRequest request;
+    final String []marcas=new String[14];
+    final int []id_marcas=new int[14];
+    int id_marca1,id_modelo1;
+    String anio1;
+
+
+
 
     private DatePickerDialog.OnDateSetListener mDateSetListener =
             new DatePickerDialog.OnDateSetListener() {
@@ -134,7 +154,7 @@ public class Detalle extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle);
-
+        sp=getSharedPreferences("datos", Context.MODE_PRIVATE);
 
         Intent recibe = getIntent();
         name = recibe.getStringExtra("titulo");
@@ -142,9 +162,10 @@ public class Detalle extends AppCompatActivity {
         precio = recibe.getDoubleExtra("precio",0.0);
         id=recibe.getIntExtra("id",0);
         descripcion=recibe.getStringExtra("descript");
-        idusuario=recibe.getIntExtra("idusuario",0);
+        idusuario=Integer.valueOf(sp.getInt("id", 0));
 
         requestQueue=VolleySingleton.getInstance().getRequestQueue();
+        requestQueue2 = VolleySingleton.getInstance().getRequestQueue();
 
         setToolbar();
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -164,6 +185,7 @@ public class Detalle extends AppCompatActivity {
         linearLayout=(LinearLayout)findViewById(R.id.elegir_marca);
         marca=(Spinner)findViewById(R.id.marca);
         modelo=(Spinner)findViewById(R.id.modelo);
+        anio=(Spinner)findViewById(R.id.anio) ;
         notaimp=(CardView)findViewById(R.id.notaimportante);
 
         enviarres=(Button)findViewById(R.id.envia_res);
@@ -184,19 +206,104 @@ public class Detalle extends AppCompatActivity {
 
                 if (isChecked){
                     linearLayout.setVisibility(View.VISIBLE);
-                    check =false;
+                    check =true;
                 }else {
                     linearLayout.setVisibility(View.INVISIBLE);
-                    check =true;
+                    check = false;
 
                 }
             }
         });
 
-        String []marcas={"audi","bmw","chevrolet","kia","mazda","toyota"};
+          final  String [] anios={"1990","1991","1992","1993","1994","1995","1996","1997","1998","1999","2000","2001","2002"
+            ,"2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016"};
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, anios);
+        anio.setAdapter(adapter1);
+        anio.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                anio1=anios[position];
+            }
 
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_dropdown_item_1line,marcas);
-        marca.setAdapter(adapter);
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+if (repuesto) {
+    String urlmarcas = "https://tallerservice.000webhostapp.com/marcas.php";
+
+
+
+     array = new JsonObjectRequest(Request.Method.GET, urlmarcas, "", new Response.Listener<JSONObject>() {
+        @Override
+        public void onResponse(JSONObject response) {
+            Log.d(TAG, response.toString());
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, marcas(response));
+            marca.setAdapter(adapter);
+
+        }
+    }, new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            Log.d(TAG, error.toString());
+        }
+    });
+    requestQueue.add(array);
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+        //sacar los modelos
+
+
+        marca.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                id_marca1 = id_marcas[position];
+                if (id_marca1==0){
+                    id_marca1=1;
+                }
+                String urlmodelos = "https://tallerservice.000webhostapp.com/modelos.php?marca="+id_marca1;
+                array2 = new JsonObjectRequest(Request.Method.GET, urlmodelos, "", new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response2) {
+                        Log.d(TAG, response2.toString());
+                        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, modelos(response2));
+                        modelo.setAdapter(adapter2);
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TAG, error.toString());
+                    }
+                });
+                requestQueue2.add(array2);
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        modelo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                id_modelo1=listaid.get(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
 
 
 
@@ -269,7 +376,42 @@ public class Detalle extends AppCompatActivity {
     }
 
 
+public String[] marcas(JSONObject jsonObject){
+    try {
 
+        JSONArray array = jsonObject.getJSONArray("marcas");
+
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject object = array.getJSONObject(i);
+            id_marcas[i]=object.getInt("id");
+            marcas[i]=object.getString("marca");
+        }
+    } catch (JSONException e) {
+        e.printStackTrace();
+    }
+    return marcas;
+}
+    public List<String> modelos(JSONObject jsonObject2){
+    List<String> lista=new ArrayList<String>();
+
+        String modelos;
+        int id_modelo;
+        try {
+            JSONArray array = jsonObject2.getJSONArray("modelo");
+
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject object = array.getJSONObject(i);
+                modelos=object.getString("modelo");
+                id_modelo=object.getInt("id");
+
+                lista.add(modelos);
+                listaid.add(id_modelo);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return lista ;
+    }
 
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -367,10 +509,14 @@ public class Detalle extends AppCompatActivity {
         TimePickerDialog t = new TimePickerDialog( this, mTimeSetListener, hora,minuto,false);
         t.show();
     }
+
+    //boton para realizar la reserva del servicio
     public void Registroreserva(View v) throws ParseException {
         String urlingreso;
         String day=fechadereservacion.getText().toString();
         String hour = horadereservacion.getText().toString();
+
+
 
 
         final SweetAlertDialog pd = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
@@ -383,16 +529,15 @@ public class Detalle extends AppCompatActivity {
             //requiere repuesto
             if(check){
                 //lleva el repuesto
-                urlingreso="http://tallerservice.000webhostapp.com/ingresoreservaconrepuesto.php?usu="+idusuario+"&serv="+id+"&fech="+day+"&hour="+hour;
+                urlingreso="http://tallerservice.000webhostapp.com/ingresoreservaconrepuesto.php?usu="+idusuario+"&serv="+id+"&fech="+day+"&hour="+hour+"&marca="+id_marca1+"&modelo="+id_modelo1+"&anio="+anio1;
             }else {
                 //no lleva el repuesto
-                urlingreso="http://tallerservice.000webhostapp.com/ingresoreservasinrepuesto.php?usu="+idusuario+"&serv="+id+"&fech="+day+"&hour="+hour+"&marca=6&modelo=11&anio=2006";
+                urlingreso="http://tallerservice.000webhostapp.com/ingresoreservasinrepuesto.php?usu="+idusuario+"&serv="+id+"&fech="+day+"&hour="+hour;
             }
         }else {
             //no requiere repuesto
             urlingreso="http://tallerservice.000webhostapp.com/ingresoreserva.php?usu="+idusuario+"&serv="+id+"&fech="+day+"&hour="+hour;
         }
-
 
         request=new StringRequest(Request.Method.GET, urlingreso, new Response.Listener<String>() {
             @Override

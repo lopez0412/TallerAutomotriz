@@ -182,11 +182,36 @@
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Con Repuesto"
+                    android:text="Sin Repuesto"
                     android:id="@+id/checkBox"
                     android:layout_below="@+id/area_hora"
                     android:layout_alignParentStart="true"
-                    android:checked="false" />
+                    android:checked="false"
+                    android:layout_marginTop="8dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/elegir_marca"
+                    android:orientation="vertical"
+                    android:layout_below="@id/checkBox"
+                    android:visibility="gone"
+                    android:layout_marginTop="8dp">
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/marca"
+                        android:layout_marginTop="8dp"></Spinner>
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/modelo"
+                        android:layout_marginTop="8dp"></Spinner>
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:id="@+id/anio"></Spinner>
+                </LinearLayout>
 
                 <Button
                     android:layout_width="match_parent"
@@ -197,7 +222,8 @@
                     android:textColor="#fff"
                     android:layout_below="@+id/checkBox"
                     android:layout_alignParentStart="true"
-                    android:layout_marginTop="119dp" />
+                    android:layout_marginTop="175dp"
+                    android:onClick="Registroreserva"/>
 
                 <Button
                     android:layout_width="match_parent"
@@ -328,6 +354,7 @@
                     android:layout_marginLeft="@dimen/card_margin"
                     android:layout_marginRight="@dimen/card_margin"
                     android:elevation="15dp"
+                    android:id="@+id/notaimportante"
                     android:layout_below="@+id/card_horarios">
 
                     <LinearLayout

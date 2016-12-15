@@ -18,10 +18,10 @@
         android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/taller_icon"
-        tools:replace="android:icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Design.NoActionBar">
+        android:theme="@style/Theme.Design.NoActionBar"
+        tools:replace="android:icon">
         <activity android:name=".MainActivity" />
         <activity
             android:name=".Principal"
@@ -60,8 +60,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Integrantes"
-            android:theme="@style/AppTheme" ></activity>
+        <activity
+            android:name=".Integrantes"
+            android:parentActivityName=".Principal"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Reservaciones"
+            android:parentActivityName=".Principal"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".mostrarPreferencias"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".Informacion">
+            <intent-filter>
+                <action android:name="your.action.string"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
