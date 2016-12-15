@@ -233,7 +233,8 @@
                     android:textColor="#fff"
                     android:layout_below="@+id/envia_res"
                     android:layout_alignParentStart="true"
-                    android:layout_marginTop="14dp" />
+                    android:layout_marginTop="14dp"
+                    android:onClick="back"/>
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="match_parent"

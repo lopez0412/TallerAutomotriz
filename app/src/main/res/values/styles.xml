@@ -13,6 +13,66 @@
 
 
     </style>
+    <style name="AppThemeIndigo2" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <!-- The primary branding color for the app. By default, this is the color applied to the
+         action bar background. -->
+        <item name="colorPrimary">@color/material_indigo_500</item>
+        <!-- Dark variant of the primary branding color. By default, this is the color applied to
+         the status bar (via statusBarColor) and navigation bar (via navigationBarColor). -->
+        <item name="colorPrimaryDark">@color/material_indigo_700</item>
+        <!-- Bright complement to the primary branding color. By default, this is the color applied
+         to framework controls (via colorControlActivated). -->
+        <item name="colorAccent">@color/material_pink_A200</item>
+        <!-- The color applied to framework control highlights (ex. ripples, list selectors). -->
+        <item name="colorControlHighlight">@color/material_pink_400</item>
+
+    </style>
+
+    <style name="AppThemeRed2" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/material_red_500</item>
+        <item name="colorPrimaryDark">@color/material_red_700</item>
+        <item name="colorAccent">@color/material_orange_A200</item>
+    </style>
+
+    <style name="AppThemeGreen2" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+
+        <item name="colorPrimary">@color/material_green_500</item>
+        <item name="colorPrimaryDark">@color/material_green_700</item>
+        <item name="colorAccent">@color/material_purple_A200</item>
+    </style>
+    <style name="AppThemeIndigo" parent="AppTheme.NoActionBar">
+        <!-- Customize your theme here. -->
+        <!-- The primary branding color for the app. By default, this is the color applied to the
+         action bar background. -->
+        <item name="colorPrimary">@color/material_indigo_500</item>
+        <!-- Dark variant of the primary branding color. By default, this is the color applied to
+         the status bar (via statusBarColor) and navigation bar (via navigationBarColor). -->
+        <item name="colorPrimaryDark">@color/material_indigo_700</item>
+        <!-- Bright complement to the primary branding color. By default, this is the color applied
+         to framework controls (via colorControlActivated). -->
+        <item name="colorAccent">@color/material_pink_A200</item>
+        <!-- The color applied to framework control highlights (ex. ripples, list selectors). -->
+        <item name="colorControlHighlight">@color/material_pink_400</item>
+
+    </style>
+
+    <style name="AppThemeRed" parent="AppTheme.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/material_red_500</item>
+        <item name="colorPrimaryDark">@color/material_red_700</item>
+        <item name="colorAccent">@color/material_orange_A200</item>
+    </style>
+
+    <style name="AppThemeGreen" parent="AppTheme.NoActionBar">
+        <!-- Customize your theme here. -->
+
+        <item name="colorPrimary">@color/material_green_500</item>
+        <item name="colorPrimaryDark">@color/material_green_700</item>
+        <item name="colorAccent">@color/material_purple_A200</item>
+    </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

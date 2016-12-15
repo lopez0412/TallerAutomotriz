@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:key="general"
-        android:title="General">
-        <CheckBoxPreference
-            android:key="datosvehiculo"
-            android:title="Guardar Datos del Vehiculo"
-            android:defaultValue="false" />
+        <PreferenceCategory
+            android:key="general"
+            android:title="General">
 
-</PreferenceCategory>
-    <PreferenceScreen
-        android:key="pref_gen"
-        android:title="Informacion">
-        <intent android:action="your.action.string"/>
-        </PreferenceScreen>
+            <PreferenceScreen
+                android:key="pref_gen"
+                android:title="Informacion"
+                android:icon="@drawable/document_edit_flat">
+                <intent android:action="your.action.string"/>
+            </PreferenceScreen>
+
+            <ListPreference
+                android:key="list_preference"
+                android:title="Cambiar color de Tema"
+                android:summary="Puedes cambiar el color del tema aqui"
+                android:entries="@array/entrada_list_preference"
+                android:entryValues="@array/valoresdeentrada_list_preference"
+                android:dialogTitle="Elige un tema"
+                android:defaultValue="Original"
+                android:selectable="true"
+                />
+        </PreferenceCategory>
+
+
+
 
 </PreferenceScreen>

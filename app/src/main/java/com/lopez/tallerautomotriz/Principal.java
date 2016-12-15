@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -46,6 +47,22 @@ public class Principal extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        //preferencias de usuario
+        SharedPreferences pref = PreferenceManager
+                .getDefaultSharedPreferences(this);
+
+        String tema=pref.getString("list_preference","");
+        switch (tema){
+            case "Original": setTheme(R.style.AppTheme_NoActionBar);
+                break;
+            case "Indigo": setTheme(R.style.AppThemeIndigo);
+                break;
+            case "Rojo": setTheme(R.style.AppThemeRed);
+                break;
+            case "Verde": setTheme(R.style.AppThemeGreen);
+                break;
+        }
+
         setContentView(R.layout.activity_principal);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -10,6 +10,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.media.Image;
 import android.preference.PreferenceManager;
@@ -19,6 +20,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.util.TimeUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +32,7 @@ import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -108,7 +111,7 @@ public class Detalle extends AppCompatActivity {
     private final String TAG = "Prueba";
     boolean check;
     NetworkImageView image;
-    View viewRoot;
+    View viewRoot,backview;
     LinearLayout linearLayout;
     Spinner marca,modelo,anio;
     CardView notaimp;
@@ -153,6 +156,21 @@ public class Detalle extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //preferencias de usuario
+        SharedPreferences pref = PreferenceManager
+                .getDefaultSharedPreferences(this);
+
+        String tema=pref.getString("list_preference","");
+        switch (tema){
+            case "Original": setTheme(R.style.AppTheme_NoActionBar);
+                break;
+            case "Indigo": setTheme(R.style.AppThemeIndigo);
+                break;
+            case "Rojo": setTheme(R.style.AppThemeRed);
+                break;
+            case "Verde": setTheme(R.style.AppThemeGreen);
+                break;
+        }
         setContentView(R.layout.activity_detalle);
         sp=getSharedPreferences("datos", Context.MODE_PRIVATE);
 
@@ -175,6 +193,7 @@ public class Detalle extends AppCompatActivity {
         collapser.setTitle(name);
         // Cargar Imagen
         viewRoot = (View) findViewById(R.id.scroll);
+        backview= (View) findViewById(R.id.contain);
         newview = (ViewGroup) findViewById(R.id.contain);
         image = (NetworkImageView) findViewById(R.id.image_paralax);
         descrip = (TextView) findViewById(R.id.descripcion);
@@ -470,7 +489,16 @@ public String[] marcas(JSONObject jsonObject){
 
             fab.setVisibility(View.INVISIBLE);
             newview.setVisibility(View.VISIBLE);
-            viewRoot.setBackgroundResource(R.color.colorAccent );
+
+            //definir el color del tema
+            TypedValue typedValue = new TypedValue();
+            getTheme().resolveAttribute(R.attr.colorAccent, typedValue, true);
+            int color = typedValue.data;
+
+
+            backview.setBackgroundColor(color);
+
+            viewRoot.setBackgroundColor(color );
             notaimp.setVisibility(View.INVISIBLE);
 
             for (int i = 0; i < newview.getChildCount(); i++) {
@@ -569,6 +597,9 @@ public String[] marcas(JSONObject jsonObject){
 
 
 
+    }
+    public void back(View v){
+        onBackPressed();
     }
 
 }

@@ -18,4 +18,18 @@
 
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_administrador">Administrador</string>
+
+    <string-array name="entrada_list_preference">
+        <item>Original</item>
+        <item>Indigo</item>
+        <item>Rojo</item>
+        <item>Verde</item>
+    </string-array>
+
+    <string-array name="valoresdeentrada_list_preference">
+        <item>Original</item>
+        <item>Indigo</item>
+        <item>Rojo</item>
+        <item>Verde</item>
+    </string-array>
 </resources>
